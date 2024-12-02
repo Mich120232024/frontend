@@ -1,13 +1,19 @@
+/* Reset body styles */
 body {
-  margin: 0;
+  margin: 0; /* Remove default margin */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased; /* Improve text rendering on webkit browsers */
+  -moz-osx-font-smoothing: grayscale; /* Improve text rendering on macOS */
+  background-color: #f9f9f9; /* Set a light background for better contrast */
+  color: #333; /* Set a default text color */
 }
 
+/* Styling for code elements */
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  background-color: #f4f4f4; /* Light gray background for code blocks */
+  padding: 2px 4px; /* Add padding for readability */
+  border-radius: 3px; /* Slightly rounded corners for a modern look */
+  color: #d6336c; /* Optional: Set a distinct color for code text */
 }
