@@ -15,13 +15,10 @@ const VolSurfaceVisualizer: React.FC<VolSurfaceVisualizerProps> = ({
 }) => {
   const { gridX, gridY, gridVol } = volSurfaceData;
 
-  // Check for invalid or empty data
+  console.log("VolSurfaceVisualizer Props:", volSurfaceData); // Debugging log
+
   if (!gridX.length || !gridY.length || !gridVol.length) {
-    console.warn("VolSurfaceVisualizer received invalid or empty data:", {
-      gridX,
-      gridY,
-      gridVol,
-    });
+    console.error("Invalid or empty grid data:", { gridX, gridY, gridVol });
     return (
       <p style={{ color: "red" }}>
         Invalid or empty data for volatility surface.
@@ -40,16 +37,15 @@ const VolSurfaceVisualizer: React.FC<VolSurfaceVisualizerProps> = ({
       const y = gridY[i][j];
       const z = gridVol[i][j];
 
-      // Set vertex positions
       vertices[index * 3] = x;
       vertices[index * 3 + 1] = y;
       vertices[index * 3 + 2] = z;
 
-      // Set vertex colors based on z (volatility)
-      const color = Math.min(Math.max((z - 5) / 15, 0), 1); // Normalize z
-      colors[index * 3] = color; // R
-      colors[index * 3 + 1] = 1 - color; // G
-      colors[index * 3 + 2] = 0.5; // B
+      // Map z (volatility) to a color (gradient)
+      const color = Math.min(Math.max((z - 5) / 15, 0), 1); // Normalize between 0 and 1
+      colors[index * 3] = color;
+      colors[index * 3 + 1] = 1 - color;
+      colors[index * 3 + 2] = 0.5; // Example: gradient from green to red
 
       index++;
     }
@@ -59,7 +55,7 @@ const VolSurfaceVisualizer: React.FC<VolSurfaceVisualizerProps> = ({
     <Canvas>
       <OrbitControls />
       <ambientLight intensity={0.5} />
-      <directionalLight position={[10, 10, 5]} intensity={0.8} />
+      <directionalLight position={[10, 10, 5]} />
       <mesh>
         <bufferGeometry>
           <bufferAttribute
