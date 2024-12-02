@@ -3,7 +3,6 @@ import axios from "axios";
 import VolSurfaceVisualizer from "./VolSurfaceVisualizer";
 import "./style.css";
 
-// Define an interface for the volatility surface data
 interface VolSurfaceData {
   gridX: number[][];
   gridY: number[][];
@@ -11,38 +10,34 @@ interface VolSurfaceData {
 }
 
 const App: React.FC = () => {
-  // State for volatility surface data, loading, and error messages
   const [volSurfaceData, setVolSurfaceData] = useState<VolSurfaceData | null>(
     null
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Function to fetch the volatility surface data from the backend
   const fetchVolSurface = async () => {
-    setLoading(true); // Set loading state to true
-    setError(null); // Clear any previous error messages
+    setLoading(true);
+    setError(null);
 
     try {
-      // Make a POST request to the backend API
       const response = await axios.post<VolSurfaceData>(
         "http://127.0.0.1:5000/api/vol-surface",
         {
-          tradeCurrency: "EUR", // Hardcoded filter for EUR/USD
+          tradeCurrency: "EUR",
           settlementCurrency: "USD",
         }
       );
       console.log("API Response:", response.data);
-      setVolSurfaceData(response.data); // Update the state with fetched data
-    } catch (err) {
+      setVolSurfaceData(response.data);
+    } catch (err: unknown) {
       console.error("Error fetching data:", err);
-      setError("Failed to fetch volatility surface data"); // Set error message
+      setError("Failed to fetch volatility surface data");
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
-  // Dummy data to display when no actual data is available
   const dummyVolSurfaceData: VolSurfaceData = {
     gridX: [
       [0, 1, 2],
@@ -64,14 +59,12 @@ const App: React.FC = () => {
       <button onClick={fetchVolSurface} disabled={loading}>
         {loading ? "Fetching Data..." : "Fetch Most Recent EUR/USD Fixing"}
       </button>
-
-      {/* Show an error message if present */}
       {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {/* Render the VolSurfaceVisualizer with fetched or dummy data */}
-      <VolSurfaceVisualizer
-        volSurfaceData={volSurfaceData || dummyVolSurfaceData}
-      />
+      {volSurfaceData ? (
+        <VolSurfaceVisualizer volSurfaceData={volSurfaceData} />
+      ) : (
+        <VolSurfaceVisualizer volSurfaceData={dummyVolSurfaceData} />
+      )}
     </div>
   );
 };
