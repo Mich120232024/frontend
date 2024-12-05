@@ -26,7 +26,7 @@ const App: React.FC<AppProps> = ({ volSurfaceData: initialVolSurfaceData }) => {
 
     try {
       const response = await axios.post<VolSurfaceData>(
-        "http://127.0.0.1:5000/api/vol-surface",
+        "http://4.226.15.106/api/vol-surface",
         {
           tradeCurrency: "EUR",
           settlementCurrency: "USD",
